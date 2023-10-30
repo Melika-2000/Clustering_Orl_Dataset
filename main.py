@@ -2,10 +2,12 @@ from matplotlib import image
 from sklearn.cluster import KMeans
 from sklearn.cluster import DBSCAN
 from sklearn.cluster import AgglomerativeClustering
+from utility import post_processing
 
 
 def main():
     pic_pixels, pic_labels = get_data()
+
     k_means = KMeans(n_clusters=40, init='random').fit(pic_pixels)
     dbscan = DBSCAN(eps=2300, min_samples=4).fit(pic_pixels)
     agglomerativeGA = AgglomerativeClustering(n_clusters=40, linkage='average').fit(pic_pixels)
@@ -13,15 +15,20 @@ def main():
     agglomerativeSL = AgglomerativeClustering(n_clusters=40, linkage='single').fit(pic_pixels)
 
     print("K-Means Rand Index:")
-    print("%.2f" % randIndex(pic_labels, k_means.labels_))
+    print("%.2f" % randIndex(pic_labels, k_means.labels_) + " - > " +
+          "%.2f" % randIndex(pic_labels, post_processing(k_means.labels_)))
     print("DBSCAN Rand Index:")
-    print("%.2f" % randIndex(pic_labels, dbscan.labels_))
+    print("%.2f" % randIndex(pic_labels, dbscan.labels_)+ " - > " +
+          "%.2f" % randIndex(pic_labels, post_processing(dbscan.labels_)))
     print("Agglomerative single link Rand Index:")
-    print("%.2f" % randIndex(pic_labels, agglomerativeSL.labels_))
+    print("%.2f" % randIndex(pic_labels, agglomerativeSL.labels_) + " - > " +
+          "%.2f" % randIndex(pic_labels, post_processing(agglomerativeSL.labels_)))
     print("Agglomerative complete link Rand Index:")
-    print("%.2f" % randIndex(pic_labels, agglomerativeCL.labels_))
+    print("%.2f" % randIndex(pic_labels, agglomerativeCL.labels_) + " - > " +
+          "%.2f" % randIndex(pic_labels, post_processing(agglomerativeCL.labels_)))
     print("Agglomerative average link Rand Index:")
-    print("%.2f" % randIndex(pic_labels, agglomerativeGA.labels_))
+    print("%.2f" % randIndex(pic_labels, agglomerativeGA.labels_) + " - > " +
+          "%.2f" % randIndex(pic_labels, post_processing(agglomerativeGA.labels_)))
 
 
 def randIndex(pic_labels, generated_labels):
