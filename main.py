@@ -29,7 +29,7 @@ def randIndex(pic_labels, generated_labels):
     tn = 0
     fp = 0
     fn = 0
-    for i in range(1, 400):
+    for i in range(400):
         for j in range(i+1, 400):
             if pic_labels[i] == pic_labels[j]: #same clusters
                 if generated_labels[i] == generated_labels[j]: #same label
