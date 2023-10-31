@@ -38,8 +38,10 @@ def randIndex(pic_labels, generated_labels):
     fn = 0
     for i in range(400):
         for j in range(i+1, 400):
-            if pic_labels[i] == pic_labels[j]: #same clusters
-                if generated_labels[i] == generated_labels[j]: #same label
+            # same clusters
+            if pic_labels[i] == pic_labels[j]:
+                # same label
+                if generated_labels[i] == generated_labels[j]:
                     tp += 1
                 else:
                     fp += 1
@@ -58,7 +60,8 @@ def get_data():
     person_num = 1
     root = 'data/'
     for picNum in range(1,401):
-        label = str(picNum) + "_" + str(person_num) #pic labels
+        # pic labels
+        label = str(picNum) + "_" + str(person_num)
         pic_labels.append(person_num-1)
         if picNum %10 == 0:
             person_num += 1

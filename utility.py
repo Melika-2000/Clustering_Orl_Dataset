@@ -15,16 +15,17 @@ def split_inner_cluster(k, labels):
     while i < len(labels):
         curr_num = labels[i]
         curr_seq_len = 1
-        # Find the length of the current sequence
+        # find the length of the current sequence
         while i + 1 < len(labels) and labels[i + 1] == curr_num:
             curr_seq_len += 1
             i += 1
-        if curr_seq_len < k or curr_num == -1:  # should remove noise
+        # check for removing noise
+        if curr_seq_len < k or curr_num == -1:
             prev_num_i = i - curr_seq_len
             next_num_i = i + 1
             first_half = []
             second_half = []
-            # Split the sequence into two halves
+            # split the sequence into two halves
             if prev_num_i < 0:
                 second_half = [labels[next_num_i]] * curr_seq_len
             elif next_num_i >= len(labels):
@@ -82,11 +83,13 @@ def fix_labels_order(arr):
 
 def get_largest_sequence(arr, k):
     largest_sequences = {}
-    # Iterate over grouped consecutive numbers
+    # iterate over grouped consecutive numbers
     for num, group in groupby(enumerate(arr), key=lambda x: x[1]):
-        if num == -1:  # noise
+        # noise
+        if num == -1:
             continue
-        indices = [i for i, _ in group]  # Get the indices of the current group
+        # get the indices of the current group
+        indices = [i for i, _ in group]
         sequence_length = len(indices)
 
         if num not in largest_sequences:
@@ -101,9 +104,9 @@ def get_largest_sequence(arr, k):
                 largest_sequences[num]['first_index'] = indices[0]
                 largest_sequences[num]['last_index'] = indices[-1]
 
-    # Remove sequences with length smaller than k
+    # remove sequences with length smaller than k
     largest_sequences = {num: seq for num, seq in largest_sequences.items() if seq['length'] >= k}
-    # Sort the result in descending order based on the lengths
+    # sort the result in descending order based on the lengths
     sorted_sequences = dict(sorted(largest_sequences.items(), key=lambda x: x[1]['length'], reverse=True))
 
     return sorted_sequences
